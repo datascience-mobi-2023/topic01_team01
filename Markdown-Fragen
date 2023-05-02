@@ -1,3 +1,19 @@
 #Fragen:
-Face recognition or emotion recognition?
-Edge detection oder/ und noise reduction Reihenfolge?
+  1. Wo speichern, wo fragen schreiben, passt das so wie wir s gemacht haben? --> link hannah über slack schicken
+	   Wo progress notieren? 
+
+	2. Benotung - wie genau entsteht die einzelnnote?
+
+	3. wir kodieren in VSCode und dann laden wir es hoch in Github oder?
+
+	4. Face recognition oder emotion recognition
+
+	5. Aller ersten schritte --> edge detection (abtrennung hintergrund gesicht, noice reduction) = bildreinigung? Vor pca? Oder abfolge egal
+	   Tip? Irgenwelche empfehlungen? Was vergessen?
+
+	6. Package usage erlaubt? Fisher package eg. daran orientieren
+	   fisher technik anwenden?
+
+	7. Welche bilder als test/ training? Eg. 3 personen als training? Wohin die frau? Eher test?
+
+  8. PCA oder LDA? In einigen papers wurde LDA als more fitting für face recognition gekennzeichnet
