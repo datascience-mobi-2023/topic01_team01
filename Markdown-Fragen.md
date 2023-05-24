@@ -17,3 +17,10 @@
  7. Welche bilder als test/ training? freundin erklärt 20 prozent Eg. 3 personen als training? Wohin die frau? Eher test? LM 80 prozent training 20 implenetriert also von einer perspn 11 bilder 8 als training
 
   8. PCA oder LDA? In einigen papers wurde LDA als more fitting für face recognition gekennzeichnet
+
+Fragen für Tut am 11.05.
+1. Wann und wo die Presentation? USB oder an Leonid shicken per Mail
+2.Gliederung für PP Feedback...
+3.Z transformation- vektor oder matrix bilder?
+
+.
