@@ -17,7 +17,7 @@ for dateiname in os.listdir(Ordner): #Dateien aus Ordner aufrufen
         Pixelwerte.append(bild_pixelwerte) #neue Pixelwerte der Liste hinzufügen
 Matrix = np.column_stack(Pixelwerte) #fügt die flachen Listen zu der Matrix hinzu
 print(Matrix) #Matrix mit den Pixelwerten aller Bilder, für jedes Bild eine Spalte. Das heißt, die Z-Transformation muss jeweils pro Zeile durchgeführt werden.
-print(Matrix.shape) #nachschauen, ob tatsächlich 77760 Zeilen (Anzahl der Pixel) und 120 Spalten (Anzahl der Bilder vorhanden sind)
+print(Matrix.shape) #nachschauen, ob 77760 Zeilen (Anzahl der Pixel) und 120 Spalten (Anzahl der Bilder vorhanden sind)
         
 #graphisch visualisieren für vorher-nachher
 
@@ -37,7 +37,7 @@ def z_transformation(Matrix):
     for row in Matrix:
         sd = np.std(row) #Standardabweichung jeder Zeile berechnen
         if sd == 0:
-            tranformed_row = row - mean
+            tranformed_row = row - mean #hier keine transformation!!!!
         else:
             mean = np.mean(row) #Mittelwert jeder Zeile berechnen
             transformed_row = (row - mean) / sd #Z-Transformation auf jede Zeile anwenden
