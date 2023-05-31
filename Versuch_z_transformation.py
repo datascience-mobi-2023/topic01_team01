@@ -6,7 +6,7 @@ import os
 import pandas as pd
 
 #Pfad zum Ordner
-Ordner = "Bilder" #####
+Ordner = "Bilder\Training"
 #Liste erstellen, in der die Bilder dann aufeinanderfolgende Zahlen sind für den Loop
 Pixelwerte = []
 for dateiname in os.listdir(Ordner): #Dateien aus Ordner aufrufen
