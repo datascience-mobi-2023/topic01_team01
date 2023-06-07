@@ -82,6 +82,7 @@ mean = np.mean(pixel_matrix_t, axis=1)
 sd = np.nanstd(pixel_matrix_t, axis=1)
 
 sd[sd == 0] = 1 # to avoid dividing by 0
+#nicht gut, das einfach auf 1 zu setzten, stattdessen bei 0 die rausnehmen  -> deshalb nicht so genau
    
 
 
