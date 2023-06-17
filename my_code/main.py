@@ -10,24 +10,24 @@ from PIL import Image
 from libs.packages.classes import z_transformation
 from libs.packages.classes import plot_gallery
 
-#Pfad zum Ordner
+#path to pictures --> changes for everyone
 Ordner = r"C:\Users\emili\Downloads\topic01_team01\Bilder\Training"
-#Liste erstellen, in der die Bilder dann aufeinanderfolgende Zahlen sind für den Loop
+
+# list with pixel data
 Pixelwerte = []
-for dateiname in os.listdir(Ordner): #Dateien aus Ordner aufrufen
-    if dateiname.endswith("gif"): #nur Bilder aus Ordner aufrufen
+for dateiname in os.listdir(Ordner): # open data from 'Ordner'
+    if dateiname.endswith("gif"): # open only pictures
         bildpfad = os.path.join(Ordner, dateiname)
         bild = imageio.imread(bildpfad) 
-        bild_pixelwerte = bild.flatten() #Pixelwerte in flacher Liste anordnen, also als Vektor mit der Dimension 1xn
-        Pixelwerte.append(bild_pixelwerte) #neue Pixelwerte der Liste hinzufügen
-Matrix = np.column_stack(Pixelwerte) #fügt die flachen Listen zu der Matrix hinzu
-print(Matrix) #Matrix mit den Pixelwerten aller Bilder, für jedes Bild eine Spalte. Das heißt, die Z-Transformation muss jeweils pro Zeile durchgeführt werden.
-print(Matrix.shape) #nachschauen, ob 77760 Zeilen (Anzahl der Pixel) und 120 Spalten (Anzahl der Bilder vorhanden sind)
+        bild_pixelwerte = bild.flatten() # flat list --> vector like
+        Pixelwerte.append(bild_pixelwerte) # add pixel values of new picture to list
+Matrix = np.column_stack(Pixelwerte) # add list to martix
+print(Matrix) # Matrix with pixel values of all pictures, 1 picture = 1 column --> z-transformation over row 
+print(Matrix.shape) # check if it worked:  77760 rows, 120 coloumns 
         
-#graphisch visualisieren für vorher-nachher
-
+# histogram before z-transformation
 hist, edges = np.histogram(Matrix)
-#Histogramm plotten
+
 plt.bar(edges[:-1], hist, width=0.9)
 plt.xlabel("Pixelwerte")
 plt.ylabel("Häufigkeit")
@@ -35,24 +35,25 @@ plt.title("Häufigkeit der Pixelwerte vor der Transformation")
 plt.show()
 
 
-##z-transformation
-## definition für z_transformation in classes
+## z-transformation
+
+# definition for z_transformation in classes
 
 neue_matrix = Matrix
-transformierte_Matrix = z_transformation(neue_matrix) #Z-Transformation auf die ganze Matrix zeilenweise anwenden anwenden
-#transformierte Werte ausgeben
-#überprüfen, ob die Werte normalisiert sind mit graphischer Visualisierung
+transformierte_Matrix = z_transformation(neue_matrix) 
 
-# Alle transformierten Werte in einen flachen Array umwandeln, damit ich nicht 120 Histogramme ausgegeben bekomme:
+# transform into flar array  
 transformierte_werte = np.concatenate(transformierte_Matrix)
-#transformierte_werte = transformierte_werte[~np.isnan(transformierte_werte)] #NaN-Werte (not a number) können auftreten, wenn sd=0, versucher ich noch zu beheben. Aber was genau sollen wir dann tun?
-#Histogramm für die transformierten Werte plotten
+# transformierte_werte = transformierte_werte[~np.isnan(transformierte_werte)] #NaN-Werte (not a number) when  sd=0
+
+# histogram after z-transformation
 hist, edges = np.histogram(transformierte_werte)
 plt.bar(edges[:-1], hist, width=0.9)
 plt.xlabel("Pixelwerte")
 plt.ylabel("Häufigkeit")
 plt.title("Häufigkeit der Pixelwerte nach der Transformation")
 plt.show()
+
 Mittelwert = np.mean(transformierte_werte)
 Standardabweichung = np.std(transformierte_werte)
 print(Mittelwert)
@@ -62,22 +63,20 @@ marix_fertig = np.transpose(transformierte_Matrix)
 
 
 
-##PCA
+## PCA
 
-pca_estimator = decomposition.PCA(n_components=10, svd_solver="randomized", whiten=True) #woher weiß ich wie viele componenten?? mach jz mal 10
-pca_estimator.fit(marix_fertig) #matrix fertig soll (#anzahl bilder, #amzahl pixel)
+pca_estimator = decomposition.PCA(n_components=10, svd_solver="randomized", whiten=True) # number of PCs not sure
+pca_estimator.fit(marix_fertig) 
 
-# Transformierte Daten erhalten
+# get transformed data
 transformierte_Daten = pca_estimator.transform(marix_fertig)
 
-# Korrelationsmatrix berechnen
+# correlation matrix
 korrelationsmatrix = np.corrcoef(transformierte_Daten, rowvar=False)
-
-# Korrelationsmatrix anzeigen
 df = pd.DataFrame(data=korrelationsmatrix) 
-#print(df)
+# print(df)
 
-#eignfaces
+# eignfaces
 eigenfaces = pca_estimator.components_
 plot_gallery(
     "Eigenfaces - PCA using randomized SVD", eigenfaces
