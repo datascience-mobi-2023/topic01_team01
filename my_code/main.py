@@ -22,16 +22,16 @@ for dateiname in os.listdir(Ordner): # open data from 'Ordner'
         bild_pixelwerte = bild.flatten() # flat list --> vector like
         Pixelwerte.append(bild_pixelwerte) # add pixel values of new picture to list
 Matrix = np.column_stack(Pixelwerte) # add list to martix
-print(Matrix) # Matrix with pixel values of all pictures, 1 picture = 1 column --> z-transformation over row 
-print(Matrix.shape) # check if it worked:  77760 rows, 120 coloumns 
+# print(Matrix) # Matrix with pixel values of all pictures, 1 picture = 1 column --> z-transformation over row 
+# print(Matrix.shape) # check if it worked:  77760 rows, 120 coloumns 
         
 # histogram before z-transformation
 hist, edges = np.histogram(Matrix)
 
 plt.bar(edges[:-1], hist, width=0.9)
-plt.xlabel("Pixelwerte")
-plt.ylabel("Häufigkeit")
-plt.title("Häufigkeit der Pixelwerte vor der Transformation")
+plt.xlabel("Pixelvalues")
+plt.ylabel("Frequency")
+plt.title("Frequency of pixelvalues before z-transformation")
 plt.show()
 
 
@@ -49,15 +49,16 @@ transformierte_werte = np.concatenate(transformierte_Matrix)
 # histogram after z-transformation
 hist, edges = np.histogram(transformierte_werte)
 plt.bar(edges[:-1], hist, width=0.9)
-plt.xlabel("Pixelwerte")
-plt.ylabel("Häufigkeit")
-plt.title("Häufigkeit der Pixelwerte nach der Transformation")
+plt.xlabel("Pixelvalues")
+plt.ylabel("Frequency")
+plt.title("Frequency of pixelvalues after z-transformation")
 plt.show()
 
 Mittelwert = np.mean(transformierte_werte)
 Standardabweichung = np.std(transformierte_werte)
-print(Mittelwert)
-print(Standardabweichung)
+print("Mean after z-transformation:", Mittelwert)
+print("sd after z-transformation:", Standardabweichung)
+print()
 
 marix_fertig = np.transpose(transformierte_Matrix)
 
@@ -65,7 +66,7 @@ marix_fertig = np.transpose(transformierte_Matrix)
 
 ## PCA
 
-pca_estimator = decomposition.PCA(n_components=10, svd_solver="randomized", whiten=True) # number of PCs not sure
+pca_estimator = decomposition.PCA(n_components=20, svd_solver="randomized", whiten=True) # number of PCs not sure
 pca_estimator.fit(marix_fertig) 
 
 # get transformed data
@@ -74,7 +75,14 @@ transformierte_Daten = pca_estimator.transform(marix_fertig)
 # correlation matrix
 korrelationsmatrix = np.corrcoef(transformierte_Daten, rowvar=False)
 df = pd.DataFrame(data=korrelationsmatrix) 
-# print(df)
+# print("Correlationmatrix:", df)
+
+# variance ratio
+variance_ratio = pca_estimator.explained_variance_ratio_
+sum_variance_ratio = np.sum(variance_ratio)
+print("varinace ratio:", variance_ratio)
+print()
+print("total varinace ratio:", sum_variance_ratio * 100, "%")
 
 # eignfaces
 eigenfaces = pca_estimator.components_

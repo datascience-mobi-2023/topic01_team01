@@ -22,7 +22,7 @@ def z_transformation(Matrix):
 
 
 
-n_row, n_col = 2,5 #es gibt so viele eigenfaces wie PCs
+n_row, n_col = 4,5 # adat to number of PCs
 n_components = n_row * n_col
 image_shape = (243, 320) 
 
