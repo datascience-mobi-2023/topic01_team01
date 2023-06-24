@@ -6,6 +6,8 @@ import os
 import pandas as pd
 from sklearn import decomposition
 from PIL import Image
+from sklearn.metrics import confusion_matrix
+import seaborn
 
 def z_transformation(Matrix):
     transformed_matrix = []
@@ -22,10 +24,11 @@ def z_transformation(Matrix):
 
 
 
+## plotting
+
 n_row, n_col = 4,5 # adat to number of PCs
 n_components = n_row * n_col
 image_shape = (243, 320) 
-
 
 def plot_gallery(title, images, n_col=n_col, n_row=n_row, cmap=plt.cm.gray):
     fig, axs = plt.subplots(
