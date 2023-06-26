@@ -166,10 +166,9 @@ print('recall:', recall) #best: 1, worst: 0
 f1 = f1_score(y_true, y_pred, average='macro')
 print('f1:', f1) #best: 1, worst: 0
 
-# PROBLEM: everytime we run the code again the confusion matrix and the accuracy changes 
-# PROBLEM: accuracy really low: 17% at highest
-# PROBLEM: z-transformation and PCA of test set in different file: test_data.py
-# PROBLEM: number of PCs cant be changed - it has to be 20 otherways there s a value error
+
+# PROBLEM: accuracy really low: highest about 10% 
+
 
 
 
@@ -202,7 +201,7 @@ plt.xlabel('K')
 plt.ylabel('Accuracy')
 plt.title('Accuracy depending on K')
 plt.show()
-#should it look like that??
+# should it look like that??
 
 
 # Plot: Accuracy depending on PC
@@ -212,10 +211,11 @@ accuracies_pc = []
 plt.figure(figsize=(8, 6))
 
 for n in PC_values:
-    pca_estimator = decomposition.PCA(n_components=n, svd_solver="randomized", whiten=True) # number of PCs not sure
+    pca_estimator = decomposition.PCA(n_components=n, svd_solver="randomized", whiten=True) 
     pca_estimator.fit(marix_fertig) 
     accuracy_pc = knn.score(X_test_pca, y_test)
     accuracies_pc.append(accuracy_pc)
+# code is working but i think not doing what i want it to do
 
 
 plt.plot(PC_values, accuracies_pc)
@@ -223,6 +223,6 @@ plt.xlabel('PC')
 plt.ylabel('Accuracy')
 plt.title('Accuracy depending on PCs')
 plt.show()
-# Accuracy depending on PCs: just a horizontal line --> guess bc of our PC Problem
+# Accuracy depending on PCs: doesnt work --> just a horizontal line
 
 # %%
