@@ -4,6 +4,7 @@ from PIL import Image
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn import decomposition
 # import glob
 
 
@@ -98,6 +99,53 @@ plt.title("Histogram of Z-transformed Data")
 plt.xlabel("Z-transformed Values")
 plt.ylabel("Frequency")
 plt.show()
+
+
+pca_estimator = decomposition.PCA(n_components=10, svd_solver="randomized", whiten=True)
+pca_estimator.fit(pixel_matrix_z)
+explained_variance_ratio = pca_estimator.explained_variance_ratio_
+cumulative_variance = np.cumsum(explained_variance_ratio)
+
+# Visualisierung der kumulativen Varianz
+plt.plot(range(1, len(cumulative_variance) + 1), cumulative_variance, marker='o')
+plt.xlabel('Anzahl der Hauptkomponenten')
+plt.ylabel('Kumulative Varianz')
+plt.title('Kumulative Varianz erklärt')
+plt.show()
+
+n_row, n_col = 2, 3
+n_components = n_row * n_col
+image_shape = (1,120)
+
+
+def plot_gallery(title, images, n_col=n_col, n_row=n_row, cmap=plt.cm.gray):
+    fig, axs = plt.subplots(
+        nrows=n_row,
+        ncols=n_col,
+        figsize=(2.0 * n_col, 2.3 * n_row),
+        facecolor="white",
+        constrained_layout=True,
+    )
+    fig.set_constrained_layout_pads(w_pad=0.01, h_pad=0.02, hspace=0, wspace=0)
+    fig.set_edgecolor("black")
+    fig.suptitle(title, size=16)
+    for ax, vec in zip(axs.flat, images):
+        vmax = max(vec.max(), -vec.min())
+        im = ax.imshow(
+            vec.reshape(image_shape),
+            cmap=cmap,
+            interpolation="nearest",
+            vmin=-vmax,
+            vmax=vmax,
+        )
+        ax.axis("off")
+
+    fig.colorbar(im, ax=axs, orientation="horizontal", shrink=0.99, aspect=40, pad=0.01)
+    plt.show()
+
+# Rufe die gewünschten Informationen oder Visualisierungen auf
+eigenfaces = pca_estimator.components_
+plot_gallery("Eigenfaces - PCA using randomized SVD", eigenfaces)
 
 
 # %%
