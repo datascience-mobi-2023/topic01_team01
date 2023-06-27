@@ -28,7 +28,7 @@ X_train = np.array(training_images[1:])  # Exclude the first image (Readme.txt)
 y_train = np.repeat(target, 8)[:X_train.shape[0]]  # Repeat the target labels 8 times and select the first 120 labels
 
 # Perform PCA on the training data
-pca = PCA(n_components=119)
+pca = PCA(n_components=80)
 transformed_data = pca.fit_transform(X_train)
 
 # Load the test images
@@ -44,6 +44,7 @@ for filename in os.listdir(test_folder):
 # Convert the test images to a numpy array
 X_test = np.array(test_images[:45])  # Select the first 45 test images
 y_test = np.repeat(target, 3)[:45]  # Repeat the target labels 3 times and select the first 45 labels
+
 
 # Perform KNN classification using the transformed data
 # Try different value of k for optimal solution
@@ -90,7 +91,9 @@ plt.ylabel('True')
 plt.title(f'Confusion Matrix (k={k})')
 plt.show()
 
+#accuracy = 75% - neighbors=7, weights='distance',algorithm='auto',metic='manhattan',leaf=30, pca=80 components
 #accuracy = 71% - neighbors=7, weights='distance',algorithm='auto',metic='manhattan',leaf=30
 #accuracy = 71% - neighbors=7, weights='distance',algorithm='auto',metic='manhattan',leaf=20
 #accuracy = 71% - neighbors=7, weights='distance',algorithm='auto',metic='manhattan',leaf=10
 #accuracy = 71% - neighbors=7, weights='distance',algorithm='brute',metic='manhattan',leaf=10
+#optimal number of components = 80
