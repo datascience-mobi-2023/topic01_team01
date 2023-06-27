@@ -28,7 +28,7 @@ X_train = np.array(training_images[1:])  # Exclude the first image (Readme.txt)
 y_train = np.repeat(target, 8)[:X_train.shape[0]]  # Repeat the target labels 8 times and select the first 120 labels
 
 # Perform PCA on the training data
-pca = PCA(n_components=80)
+pca = PCA(n_components=80) #best value shown in graph
 transformed_data = pca.fit_transform(X_train)
 
 # Load the test images
@@ -118,3 +118,4 @@ plt.show()
 #accuracy = 71% - neighbors=7, weights='distance',algorithm='brute',metic='manhattan',leaf=10
 #optimal number of components = 80
 
+#overall accuracy of the algorithm for k=7 is 76%
