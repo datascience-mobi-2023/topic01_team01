@@ -31,10 +31,6 @@ y_train = np.repeat(target, 8)[:X_train.shape[0]]  # Repeat the target labels 8 
 pca = PCA(n_components=119)
 transformed_data = pca.fit_transform(X_train)
 
-print("Transformed data shape: ",transformed_data.shape)
-print ("y_train shape: ", y_train)
-
-
 # Load the test images
 test_folder = "Bilder/test"
 test_images = []
@@ -50,12 +46,13 @@ X_test = np.array(test_images[:45])  # Select the first 45 test images
 y_test = np.repeat(target, 3)[:45]  # Repeat the target labels 3 times and select the first 45 labels
 
 # Perform KNN classification using the transformed data
-k_values = [1, 3, 4, 5, 6]
+# Try different value of k for optimal solution
+k_values = [1, 3, 5, 7, 9]
 accuracy_scores = []
 
 for k in k_values:
     # Create and fit the KNN classifier on the transformed data
-    knn = KNeighborsClassifier(n_neighbors=k)
+    knn = KNeighborsClassifier(n_neighbors=k, weights = 'distance', algorithm='auto',metric='manhattan', leaf_size=30)
     knn.fit(transformed_data, y_train)
 
     # Predict the labels for the transformed test data
@@ -65,14 +62,10 @@ for k in k_values:
     # Calculate accuracy score
     accuracy = accuracy_score(y_test, y_pred)
     accuracy_scores.append(accuracy)
-    # Calculate accuracy score
-
-
+  
     # Calculate overall accuracy
     overall_accuracy = accuracy_score(y_test, y_pred)
-
-print("Overall Accuracy:", overall_accuracy) #64%
-
+    print("Overall Accuracy for k =", k, ":", overall_accuracy)
 
 
 # Plot accuracy scores vs. k values
@@ -82,9 +75,9 @@ plt.ylabel('Accuracy')
 plt.title('Accuracy vs. k')
 plt.show()
 
-# Create and plot confusion matrix for k=5
-k = 5
-knn = KNeighborsClassifier(n_neighbors=k)
+# Create and plot confusion matrix for k=7
+k = 7
+knn = KNeighborsClassifier(n_neighbors=k, weights='distance', algorithm='auto', metric='manhattan', leaf_size=30)
 knn.fit(transformed_data, y_train)
 transformed_test = pca.transform(X_test)
 y_pred = knn.predict(transformed_test)
@@ -96,3 +89,8 @@ plt.xlabel('Predicted')
 plt.ylabel('True')
 plt.title(f'Confusion Matrix (k={k})')
 plt.show()
+
+#accuracy = 71% - neighbors=7, weights='distance',algorithm='auto',metic='manhattan',leaf=30
+#accuracy = 71% - neighbors=7, weights='distance',algorithm='auto',metic='manhattan',leaf=20
+#accuracy = 71% - neighbors=7, weights='distance',algorithm='auto',metic='manhattan',leaf=10
+#accuracy = 71% - neighbors=7, weights='distance',algorithm='brute',metic='manhattan',leaf=10
