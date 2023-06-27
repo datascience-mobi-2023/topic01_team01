@@ -3,10 +3,10 @@ import imageio.v2 as imageio
 import matplotlib.pyplot as plt
 import os
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, classification_report
 from PCA import transformed_data
 from PCA import pca
-from sklearn.metrics import confusion_matrix, accuracy_score
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 import seaborn as sns
 from sklearn.decomposition import PCA
 
@@ -50,6 +50,9 @@ y_test = np.repeat(target, 3)[:45]  # Repeat the target labels 3 times and selec
 # Try different value of k for optimal solution
 k_values = [1, 3, 5, 7, 9]
 accuracy_scores = []
+precision_scores = []
+recall_scores = []
+f1_scores = []
 
 for k in k_values:
     # Create and fit the KNN classifier on the transformed data
@@ -62,18 +65,24 @@ for k in k_values:
 
     # Calculate accuracy score
     accuracy = accuracy_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred, average='weighted')
+    recall = recall_score(y_test, y_pred, average='weighted')
+    f1 = f1_score(y_test, y_pred, average='weighted')
+    
     accuracy_scores.append(accuracy)
+    precision_scores.append(precision)
+    recall_scores.append(recall)
+    f1_scores.append(f1)
   
-    # Calculate overall accuracy
-    overall_accuracy = accuracy_score(y_test, y_pred)
-    print("Overall Accuracy for k =", k, ":", overall_accuracy)
-
-
 # Plot accuracy scores vs. k values
-plt.plot(k_values, accuracy_scores, marker='o')
+plt.plot(k_values, accuracy_scores, marker='o', label='Accuracy')
+plt.plot(k_values, precision_scores, marker='o', label='Precision')
+plt.plot(k_values, recall_scores, marker='o', label='Recall')
+plt.plot(k_values, f1_scores, marker='o', label='F1-Score')
 plt.xlabel('k')
-plt.ylabel('Accuracy')
-plt.title('Accuracy vs. k')
+plt.ylabel('Score')
+plt.title('Performance Metrics vs. k')
+plt.legend()
 plt.show()
 
 # Create and plot confusion matrix for k=7
@@ -82,6 +91,17 @@ knn = KNeighborsClassifier(n_neighbors=k, weights='distance', algorithm='auto', 
 knn.fit(transformed_data, y_train)
 transformed_test = pca.transform(X_test)
 y_pred = knn.predict(transformed_test)
+
+# Calculate accuracy score
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy for k =", k, ":", accuracy)
+
+# Calculate precision, recall, and F1 score
+classification_report = classification_report(y_test, y_pred, target_names=target)
+print("Classification Report for k =", k)
+print(classification_report)
+
+# Create and plot confusion matrix for k=7
 confusion = confusion_matrix(y_test, y_pred)
 
 plt.figure(figsize=(8, 6))
@@ -97,3 +117,4 @@ plt.show()
 #accuracy = 71% - neighbors=7, weights='distance',algorithm='auto',metic='manhattan',leaf=10
 #accuracy = 71% - neighbors=7, weights='distance',algorithm='brute',metic='manhattan',leaf=10
 #optimal number of components = 80
+
