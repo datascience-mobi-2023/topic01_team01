@@ -1,8 +1,9 @@
 from sklearn.decomposition import PCA
 from Versuch_z_transformation import transformierte_Matrix
 import numpy as np
+import matplotlib.pyplot as plt
 
-n_components = 20 #checked with scree plot (elbow method)
+n_components = 80 
 pca = PCA(n_components=n_components)
 
 #Fit the model to the transformed data
@@ -21,7 +22,13 @@ print("Explained variance ratio for each component:")
 print(explained_variance_ratio)
 
 # 2. Total Variance Explained
-total_variance_explained = np.sum(explained_variance_ratio) #85%
+total_variance_explained = np.sum(explained_variance_ratio) #99%
 print("Total variance explained:", total_variance_explained)
-#correlation matrix machen
-#eigenfaces dazufügen
+
+plt.plot(range(1, n_components + 1), np.cumsum(explained_variance_ratio))
+plt.xlabel('Number of Components')
+plt.ylabel('Cumulative Explained Variance Ratio')
+plt.title('Explained Variance Ratio vs. Number of Components')
+plt.show()
+
+
