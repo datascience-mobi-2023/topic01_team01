@@ -117,6 +117,7 @@ scores = cross_val_score(knn, transformed_data, y_train, cv=5, scoring='accuracy
 print("Cross-Validation Scores for k =", k)
 print(scores)
 
+
 # Calculate accuracy score
 accuracy = accuracy_score(y_test, y_pred)
 print("Accuracy for k =", k, ":", accuracy)
