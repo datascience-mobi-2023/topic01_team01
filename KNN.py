@@ -112,10 +112,11 @@ transformed_test = pca.transform(X_test)
 y_pred = knn.predict(transformed_test)
 
 # Perform k-fold cross-validation and calculate the scores
-scores = cross_val_score(knn, transformed_data, y_train, cv=5, scoring='accuracy')
+scores = cross_val_score(knn, X_train, y_train, cv=5, scoring='accuracy')
+# Calculate the average cross-validation score
+avg_score = np.mean(scores)
 # Print the cross-validation scores
-print("Cross-Validation Scores for k =", k)
-print(scores)
+print("Average Cross-Validation Score: ", avg_score)
 
 
 # Calculate accuracy score

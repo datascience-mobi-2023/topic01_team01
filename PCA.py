@@ -3,11 +3,21 @@ from Versuch_z_transformation import transformierte_Matrix
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Compute the correlation matrix
+correlation_matrix = np.corrcoef(transformierte_Matrix, rowvar=False)
+
+# Plot the correlation matrix heatmap
+plt.figure(figsize=(5, 5))
+plt.imshow(correlation_matrix, cmap='coolwarm', vmin=-1, vmax=1)
+plt.colorbar()
+plt.title('Correlation Matrix Heatmap')
+plt.show()
+
 n_components = 80 
 pca = PCA(n_components=n_components)
 
 #Fit the model to the transformed data
-pca.fit(transformierte_Matrix) 
+pca.fit(correlation_matrix) 
 
 #Acess the principal components and the variance ratio
 principal_components = pca.components_  
