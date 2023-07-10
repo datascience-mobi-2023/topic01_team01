@@ -43,8 +43,11 @@ transformed_data = pca.fit_transform(X_train)
 eigenfaces = pca.components_.reshape((n_components, image.shape[0], image.shape[1]))
 
 # Plot the eigenfaces
-fig, axes = plt.subplots(7, 7, figsize=(20, 20))
-for i, ax in enumerate(axes.flat):
+fig, axes = plt.subplots(1, 3, figsize=(12, 4))  # Create a subplot grid for 3 eigenfaces
+
+# Select the first 3 eigenfaces to plot
+eigenface_indices = [0, 1, 2]
+for i, ax in zip(eigenface_indices, axes):
     ax.imshow(eigenfaces[i], cmap='gray')
     ax.axis('off')
     ax.set_title(f'Eigenface {i+1}')
@@ -156,13 +159,6 @@ plt.ylabel('True')
 plt.title(f'Confusion Matrix (k={k})')
 plt.show()
 
-
-#accuracy = 75% - neighbors=7, weights='distance',algorithm='auto',metic='manhattan',leaf=30, pca=80 components
-#accuracy = 71% - neighbors=7, weights='distance',algorithm='auto',metic='manhattan',leaf=30
-#accuracy = 71% - neighbors=7, weights='distance',algorithm='auto',metic='manhattan',leaf=20
-#accuracy = 71% - neighbors=7, weights='distance',algorithm='auto',metic='manhattan',leaf=10
-#accuracy = 71% - neighbors=7, weights='distance',algorithm='brute',metic='manhattan',leaf=10
-#optimal number of components = 80
 
 
 
