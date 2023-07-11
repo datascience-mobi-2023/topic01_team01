@@ -11,6 +11,9 @@ from sklearn import decomposition
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import f1_score
 from libs.packages.classes import z_transformation
 from libs.packages.classes import plot_gallery
 from test_data import transformierte_Daten_testdata 
@@ -107,6 +110,16 @@ plot_gallery(
 '''
 
 
+'''
+# Visualisierung der kumulativen Varianz
+plt.plot(range(1, len(cumulative_variance) + 1), cumulative_variance, marker='o')
+plt.xlabel('Amount of PCs')
+plt.ylabel('Kumulative variance')
+plt.title('Kumulative variance')
+plt.show()
+'''
+
+
 
 ## KNN
 
@@ -126,21 +139,35 @@ knn.fit(X_train_pca, y_train)
 # Predict the labels for the test data
 y_pred = knn.predict(X_test_pca)
 
-# Evaluate the accuracy of the classifier
-accuracy = knn.score(X_test_pca, y_test)
-print("Accuracy:", accuracy)
 
-# PROBLEM: everytime we run the code again the confusion matrix and the accuracy changes - why????
-# PROBLEM: accuracy really low: 13% at highest
+# Evaluation
+# accuracy 
+accuracy = knn.score(X_test_pca, y_test)
+print("Accuracy:", accuracy) #best: 1, worst: 0
+
+#presicion
+y_true = y_test
+precision = precision_score(y_true, y_pred, average='macro') #change maybe to micro?
+print('precision:', precision) #best: 1, worst: 0
+
+#recall
+recall = recall_score(y_true, y_pred, average='macro') #change maybe to micro?
+print('recall:', recall) #best: 1, worst: 0
+
+#f1
+f1 = f1_score(y_true, y_pred, average='macro')
+print('f1:', f1) #best: 1, worst: 0
+
+# PROBLEM: everytime we run the code again the confusion matrix and the accuracy changes 
+# PROBLEM: accuracy really low: 17% at highest
 # PROBLEM: z-transformation and PCA of test set in different file: test_data.py
+# PROBLEM: number of PCs cant be changed - it has to be 20 otherways there s a value error
 
 
 
 ## plotting
 
 # confusion matrix 
-y_true = y_test
-
 cf_matrix = confusion_matrix(y_true, y_pred)
 plt.figure(figsize=(8, 6))
 seaborn.heatmap(cf_matrix, xticklabels=target , yticklabels=target)
@@ -167,6 +194,7 @@ plt.xlabel('K')
 plt.ylabel('Accuracy')
 plt.title('Accuracy depending on K')
 plt.show()
+#should it look like that??
 
 
 # Plot: Accuracy depending on PC
