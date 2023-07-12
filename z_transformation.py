@@ -17,12 +17,19 @@ matrix = np.column_stack(pixelValues)
 print(matrix) 
 print(matrix.shape) 
         
-#Plot 
-hist, edges = np.histogram(matrix)
-plt.bar(edges[:-1], hist, width=0.9)
+# old histogram with only one bar every 25 pixels
+# hist, edges = np.histogram(matrix)
+# plt.bar(edges[:-1], hist, width=10)
+# plt.xlabel("Pixel values")
+# plt.ylabel("Frequency")
+# plt.title("Frequency of pixel values ​​before transformation")
+# plt.show()
+
+#plot
+plt.hist(matrix)
+plt.title("Frequency of pixel values before z-transformation")
 plt.xlabel("Pixel values")
 plt.ylabel("Frequency")
-plt.title("Frequency of pixel values ​​before transformation")
 plt.show()
 
 #Z transformation
