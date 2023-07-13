@@ -11,7 +11,7 @@ from libs.packages.classes import z_transformation
 from libs.packages.classes import plot_gallery
 
 #path to pictures --> changes for everyone
-Ordner = r"C:\Users\emili\Downloads\topic01_team01\Bilder\Training"
+Ordner = r"C:\Users\emili\Downloads\topic01_team01\my_code\Bilder\Training"
 
 # list with pixel data
 Pixelwerte = []
