@@ -1,3 +1,4 @@
+#%%
 from sklearn.decomposition import PCA
 from z_transformation import transformierte_Matrix
 import numpy as np
